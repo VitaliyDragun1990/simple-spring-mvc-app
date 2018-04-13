@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:webflow-config="http://www.springframework.org/schema/webflow-config"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config.xsd">
+
+    <bean id="securityFlowExecutionListener"
+          class="org.springframework.webflow.security.SecurityFlowExecutionListener"/>
+
+    <webflow-config:flow-executor id="bankFlowExecutor" flow-registry="bankFlowRegistry">
+        <webflow-config:flow-execution-listeners>
+            <webflow-config:listener ref="securityFlowExecutionListener"/>
+        </webflow-config:flow-execution-listeners>
+    </webflow-config:flow-executor>
+
+    <webflow-config:flow-registry id="bankFlowRegistry" base-path="/WEB-INF">
+        <webflow-config:flow-location id="bankFlow" path="bank-flow.xml"/>
+    </webflow-config:flow-registry>
+
+    <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter">
+        <property name="flowExecutor" ref="bankFlowExecutor"/>
+    </bean>
+
+    <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping">
+        <property name="flowRegistry" ref="bankFlowRegistry"/>
+    </bean>
+</beans>
