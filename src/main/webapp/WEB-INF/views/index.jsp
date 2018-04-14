@@ -8,8 +8,10 @@
                 <p class="lead">
                     Happiness = A Good Bank Account, A Good Cook and a Good Digestion - Jean
                 </p>
-                <a class="btn btn-lg btn-success" href="<spring:url value="/user/new"/>">Register Here</a>
-                <security:authorize access="hasAnyRole('USER', 'ADMIN')" var="isLogin">
+                <security:authorize access="isAnonymous()">
+                    <a class="btn btn-lg btn-success" href="<spring:url value="/user/new"/>">Register Here</a>
+                </security:authorize>
+                <security:authorize access="isAuthenticated()">
                     <c:url value="/logout" var="logoutUrl"/>
                     <%-- Logout form --%>
                     <form action="${logoutUrl}" method="post" id="logoutForm">
@@ -24,12 +26,12 @@
                     <p><br><a href="javascript:formSubmit()" class="btn btn-primary btn-sm">Logout</a>
                     </p>
                 </security:authorize>
-                <c:if test="${!isLogin}">
+                <security:authorize access="isAnonymous()">
                     <p><br>Existing Users : <a href="<spring:url value="/user/login"/>">
                         Login Here
                     </a>
                     </p>
-                </c:if>
+                </security:authorize>
             </div>
         </div>
     </div>

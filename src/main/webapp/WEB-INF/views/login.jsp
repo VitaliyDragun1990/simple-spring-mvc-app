@@ -41,6 +41,7 @@
 
             </div>
         </div>
+        <a href="<spring:url value="/"/>">Back to Index Page</a>
     </div>
 </div>
 
